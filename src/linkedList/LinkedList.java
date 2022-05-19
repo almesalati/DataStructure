@@ -66,6 +66,7 @@ public class LinkedList<T> {
         // set pointer
         pointer.next = newData;
         newData.next = this.temp;
+        this.size++;
     }
 
     public T get(int index) {
@@ -94,6 +95,63 @@ public class LinkedList<T> {
             System.out.println(pointer.item);
             pointer = pointer.previous;
         }
+    }
+
+    public void addFirst(T data) {
+        // || -> || -> ||
+        this.temp = this.head;
+        this.head = new Data();
+        this.head.item = data;
+        this.head.next = this.temp;
+        this.temp.previous = this.head;
+        this.head.previous = null;
+        this.size++;
+    }
+
+    public void addLast(T data) {
+        this.temp = this.tail;
+        this.tail = new Data();
+        this.tail.item = data;
+        this.tail.next = null;
+        this.temp.next = this.tail;
+        this.tail.previous = this.temp;
+        this.size++;
+    }
+
+    public int indexOf(T data) {
+        int index = 0;
+        Data pointer = this.head;
+        while (pointer != null) {
+            if (pointer.item.equals(data)) {
+                return index;
+            }
+            ++index;
+            pointer = pointer.next;
+        }
+        return -1;
+    }
+
+    public void remove(int index) {
+        int count = 0;
+        Data pointer = this.head;
+        while (pointer != null) {
+            if (count == index) {
+                if (pointer.previous == null) {
+                    this.head = this.head.next;
+                } else if (pointer.next == null) {
+                    this.tail = this.tail.next;
+                } else {
+                    this.temp = pointer.previous;
+                    this.temp.next = pointer.next;
+                }
+            }
+            ++count;
+            pointer = pointer.next;
+        }
+    }
+
+    public void remove(T data) {
+
     }
 
     public int getSize() {
